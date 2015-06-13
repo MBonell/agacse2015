@@ -1,4 +1,4 @@
-% Authors: Bonell Marcela, Moya Ulises
+% Authors: E. Ulises Moya-Sánchez, Bonell Manjarrez Marcela
 % License: 
 % Date: Jun 2015
 
@@ -6,6 +6,9 @@ clear all; close all;
 
 % Read orignal video
 original_video = VideoReader('videos/1-original.avi');
+
+% Read magnified video
+magnified_video = VideoReader('videos/1-magnified.avi');
 
 % Original video information
 height_original = original_video.Height;
@@ -18,48 +21,79 @@ number_frames_original = original_video.NumberOfFrames;
 %fprintf('Number of frames in original: %d\n', number_frames_original);
 
 start_index = 1;
-end_index = number_frames_original;
+end_index   = number_frames_original;
 
-
-width_roi = 150;
-height_roi = 150;
+width_roi   = 80;
+height_roi  = 80;
 
 % Show the first frame and the ROI
 first_frame = read(original_video, start_index);
-roi = imcrop(first_frame,[140 180 width_roi height_roi]);
-imshow(first_frame), figure, imshow(roi)
+original_roi = imcrop(first_frame,[140 180 width_roi height_roi]);
+imshow(first_frame), figure, imshow(original_roi)
 
-original_intensity = zeros(10);
-frames = 1:10;
+n = 48;
+frames = 1:n;
 
-% Calculate median and variace in the original video per frame
-for i = start_index: 10
+original_intensity  = zeros(1,n);
+original_error      = zeros(1,n);
+magnified_intensity = zeros(1,n);
+magnified_error     = zeros(1,n);
+
+% Calculate mean and variace in the videos per frame
+for i = start_index: n
  
- frame = read(original_video, i);
- roi = imcrop(frame,[140 180 width_roi height_roi]);
- double_roi = im2double(roi);
+ original_frame = read(original_video, i);
+ original_roi   = rgb2gray(imcrop(original_frame,[140 180 width_roi height_roi]));
+ original_double_roi = im2double(original_roi);
  
- original_median = median(median(double_roi));
- original_variance = var(var(double_roi));
+ magnified_frame = read(magnified_video, i);
+ magnified_roi = rgb2gray(imcrop(magnified_frame,[140 180 width_roi height_roi]));
+ magnified_double_roi = im2double(magnified_roi);
  
- fprintf('\nMedian in frame %d:\n',i);
- disp(original_median);
  
- fprintf('\nVariance in frame %d:\n',i);
+ original_mean      = mean(original_double_roi(:));
+ original_variance  = var(original_double_roi(:));
+ 
+ magnified_mean     = mean(magnified_double_roi(:));
+ magnified_variance = var(magnified_double_roi(:));
+ 
+ 
+ fprintf('\nOriginal/Magnified mean in frame %d:\n',i);
+ disp(original_mean);
+ disp(magnified_mean);
+ 
+ fprintf('\nOriginal/Magnified variance in frame %d:\n',i);
  disp(original_variance);
+ disp(magnified_variance);
  
- original_intensity(i) = median(original_median);
+ 
+ original_intensity(i) = original_mean;
+ original_error(i) = original_variance;
+ 
+ magnified_intensity(i) = magnified_mean;
+ magnified_error(i) = magnified_variance;
  
 end 
 
 
 
-% Draw the plot with the median of the original video
+% Draw the plot error with the mean of the original video
 figure;
-plot(frames,original_intensity);
+errorbar(1:n, original_intensity, original_error, '*');
+% ylim([0 .5])
 title('Time vs Intensity (Original)');
 xlabel('Frame');
 ylabel('Intensity');
+
+
+% Draw the plot error with the mean of the magnified video
+figure;
+errorbar(1:n, magnified_intensity, magnified_error, '*');
+% ylim([0 .5])
+title('Time vs Intensity (Magnified)');
+xlabel('Frame');
+ylabel('Intensity');
+
 
 
 
