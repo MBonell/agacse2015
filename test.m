@@ -39,7 +39,7 @@ original_error      = zeros(1,n);
 magnified_intensity = zeros(1,n);
 magnified_error     = zeros(1,n);
 
-% Calculate mean and variace in the videos per frame
+% Calculate mean and stardard deviation in the videos per frame
 for i = start_index: n
  
  original_frame = read(original_video, i);
@@ -51,27 +51,27 @@ for i = start_index: n
  magnified_double_roi = im2double(magnified_roi);
  
  
- original_mean      = mean(original_double_roi(:));
- original_variance  = var(original_double_roi(:));
+ original_mean                  = mean(original_double_roi(:));
+ original_standard_deviation    = std(original_double_roi(:));
  
- magnified_mean     = mean(magnified_double_roi(:));
- magnified_variance = var(magnified_double_roi(:));
+ magnified_mean                 = mean(magnified_double_roi(:));
+ magnified_standard_deviation   = std(magnified_double_roi(:));
  
  
  fprintf('\nOriginal/Magnified mean in frame %d:\n',i);
  disp(original_mean);
  disp(magnified_mean);
  
- fprintf('\nOriginal/Magnified variance in frame %d:\n',i);
- disp(original_variance);
- disp(magnified_variance);
+ fprintf('\nOriginal/Magnified standard deviation in frame %d:\n',i);
+ disp(original_standard_deviation);
+ disp(magnified_standard_deviation);
  
  
- original_intensity(i) = original_mean;
- original_error(i) = original_variance;
+ original_intensity(i)  = original_mean;
+ original_error(i)      = original_standard_deviation;
  
  magnified_intensity(i) = magnified_mean;
- magnified_error(i) = magnified_variance;
+ magnified_error(i)     = magnified_standard_deviation;
  
 end 
 
