@@ -43,7 +43,7 @@ magnified_intensity = zeros(1,n);
 magnified_error     = zeros(1,n);
 magnified_snr       = zeros(1,n);
 
-% Calculate mean and stardard deviation in the videos per frame
+% Calculate mean, stardard deviation and SNR in the videos per frame
 for i = start_index: n
  
  original_frame = read(original_video, i);
@@ -61,16 +61,16 @@ for i = start_index: n
  magnified_mean                 = mean(magnified_double_roi(:));
  magnified_standard_deviation   = std(magnified_double_roi(:));
  
- 
- fprintf('\nOriginal/Magnified mean in frame %d:\n',i);
+ fprintf('\nFrame %d (Original vs Magnified):\n',i);
+ fprintf('[Mean]\n');
  disp(original_mean);
  disp(magnified_mean);
  
- fprintf('\nOriginal/Magnified standard deviation in frame %d:\n',i);
+ fprintf('[Standard deviation]\n');
  disp(original_standard_deviation);
  disp(magnified_standard_deviation);
  
-  fprintf('\nOriginal/Magnified SNR in frame %d:\n',i);
+ fprintf('[SNR]\n');
  disp(original_mean/original_standard_deviation);
  disp(magnified_mean/magnified_standard_deviation);
  
@@ -84,7 +84,6 @@ for i = start_index: n
  magnified_snr(i)       = magnified_mean/magnified_standard_deviation;
  
 end 
-
 
 
 % Draw the intensity
@@ -110,9 +109,4 @@ title('Time vs SNR');
 xlabel('Frame');
 ylabel('SNR');
 legend('Original','Magnified');
-
-
-
-
-
  
