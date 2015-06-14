@@ -79,22 +79,21 @@ end
 
 
 
-% Draw the plot error with the mean of the original video
+% Draw the intensity
 figure;
-errorbar(1:n, original_intensity, original_error, '*');
-% ylim([0 .5])
-title('Time vs Intensity (Original)');
+plot(frames, original_intensity, 'g', frames, magnified_intensity, 'r');
+title('Time vs Intensity');
 xlabel('Frame');
 ylabel('Intensity');
+legend('Original','Magnified');
 
-
-% Draw the plot error with the mean of the magnified video
+% Draw the standard deviation
 figure;
-errorbar(1:n, magnified_intensity, magnified_error, '*');
-% ylim([0 .5])
-title('Time vs Intensity (Magnified)');
+plot(frames, original_error, 'y-*', frames, magnified_error, 'r-*');
+title('Time vs Error');
 xlabel('Frame');
-ylabel('Intensity');
+ylabel('Error');
+legend('Original','Magnified');
 
 
 
