@@ -12,10 +12,10 @@ magnified_video = VideoReader('videos/1-magnified.avi');
 
 % Original video information
 height_original = original_video.Height;
-width_orginal = original_video.Width;
+width_orginal   = original_video.Width;
 
-frame_rate_original = original_video.FrameRate;
-number_frames_original = original_video.NumberOfFrames;
+frame_rate_original     = original_video.FrameRate;
+number_frames_original  = original_video.NumberOfFrames;
 
 %fprintf('Frame rate in original: %d\n', frame_rate_original);
 %fprintf('Number of frames in original: %d\n', number_frames_original);
@@ -25,10 +25,12 @@ end_index   = number_frames_original;
 
 width_roi   = 80;
 height_roi  = 80;
+x_roi       = 170;
+y_roi       = 200;
 
 % Show the first frame and the ROI
 first_frame = read(original_video, start_index);
-original_roi = imcrop(first_frame,[140 180 width_roi height_roi]);
+original_roi = imcrop(first_frame,[x_roi y_roi width_roi height_roi]);
 imshow(first_frame), figure, imshow(original_roi)
 
 n = 48;
@@ -43,11 +45,11 @@ magnified_error     = zeros(1,n);
 for i = start_index: n
  
  original_frame = read(original_video, i);
- original_roi   = rgb2gray(imcrop(original_frame,[140 180 width_roi height_roi]));
+ original_roi   = rgb2gray(imcrop(original_frame,[x_roi y_roi width_roi height_roi]));
  original_double_roi = im2double(original_roi);
  
  magnified_frame = read(magnified_video, i);
- magnified_roi = rgb2gray(imcrop(magnified_frame,[140 180 width_roi height_roi]));
+ magnified_roi = rgb2gray(imcrop(magnified_frame,[x_roi y_roi width_roi height_roi]));
  magnified_double_roi = im2double(magnified_roi);
  
  
