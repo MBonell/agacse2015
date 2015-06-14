@@ -38,8 +38,10 @@ frames = 1:n;
 
 original_intensity  = zeros(1,n);
 original_error      = zeros(1,n);
+original_snr        = zeros(1,n);
 magnified_intensity = zeros(1,n);
 magnified_error     = zeros(1,n);
+magnified_snr       = zeros(1,n);
 
 % Calculate mean and stardard deviation in the videos per frame
 for i = start_index: n
@@ -68,12 +70,18 @@ for i = start_index: n
  disp(original_standard_deviation);
  disp(magnified_standard_deviation);
  
+  fprintf('\nOriginal/Magnified SNR in frame %d:\n',i);
+ disp(original_mean/original_standard_deviation);
+ disp(magnified_mean/magnified_standard_deviation);
+ 
  
  original_intensity(i)  = original_mean;
  original_error(i)      = original_standard_deviation;
+ original_snr(i)        = original_mean/original_standard_deviation;
  
  magnified_intensity(i) = magnified_mean;
  magnified_error(i)     = magnified_standard_deviation;
+ magnified_snr(i)       = magnified_mean/magnified_standard_deviation;
  
 end 
 
@@ -93,6 +101,14 @@ plot(frames, original_error, 'y-*', frames, magnified_error, 'r-*');
 title('Time vs Error');
 xlabel('Frame');
 ylabel('Error');
+legend('Original','Magnified');
+
+% Draw the SNR
+figure;
+plot(frames, original_snr, 'b-*', frames, magnified_snr, 'r-*');
+title('Time vs SNR');
+xlabel('Frame');
+ylabel('SNR');
 legend('Original','Magnified');
 
 
