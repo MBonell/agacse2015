@@ -1,5 +1,4 @@
 % Authors: E. Ulises Moya-Sánchez, Bonell Manjarrez Marcela
-% License: 
 % Date: Jun 2015
 
 clear all; close all;
@@ -29,9 +28,9 @@ x_roi       = 170;
 y_roi       = 200;
 
 % Show the first frame and the ROI
-first_frame = read(original_video, start_index);
-original_roi = imcrop(first_frame,[x_roi y_roi width_roi height_roi]);
-imshow(first_frame), figure, imshow(original_roi)
+%first_frame = read(original_video, start_index);
+%original_roi = imcrop(first_frame,[x_roi y_roi width_roi height_roi]);
+%imshow(first_frame), figure, imshow(original_roi)
 
 total_frames = 24 * 8;
 frames_frecuency = 12;
@@ -129,4 +128,40 @@ title('Time vs SNR');
 xlabel('Seconds');
 ylabel('SNR');
 legend('Original','Magnified');
+figure;
+
+
+% Draw the difference and erode
+for i = start_index: total_frames
+    
+ original_frame = read(original_video, i);
+ original_roi   = rgb2gray(imcrop(original_frame,[x_roi y_roi width_roi height_roi]));
+ original_double_roi = im2double(original_roi);
+ 
+ magnified_frame = read(magnified_video, i);
+ magnified_roi = rgb2gray(imcrop(magnified_frame,[x_roi y_roi width_roi height_roi]));
+ magnified_double_roi = im2double(magnified_roi);  
+
+    subplot(2,2,1);
+    imshow(original_roi);
+    title('Original');
+    
+    subplot(2,2,2);
+    imshow(magnified_roi);
+    title('Magnified');
+
+    subplot(2,2,3)
+    difference_roi = original_roi - magnified_roi;
+    imshow(difference_roi);
+    title('Difference');
+    
+    subplot(2,2,4);
+    erode_roi = imerode(difference_roi,strel('disk', 1));
+    imshow(erode_roi);
+    title('Erode');
+    
+    drawnow;
+
+end
+    
  
