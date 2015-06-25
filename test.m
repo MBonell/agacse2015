@@ -30,7 +30,7 @@ y_roi       = 200;
 % Show the first frame and the ROI
 %first_frame = read(original_video, start_index);
 %original_roi = imcrop(first_frame,[x_roi y_roi width_roi height_roi]);
-%imshow(first_frame), figure, imshow(original_roi)
+%imshow(first_frame), figure('Name', 'ROI'), imshow(original_roi)
 
 total_frames = 24 * 8;
 frames_frecuency = 12;
@@ -106,7 +106,7 @@ end
 
 
 % Draw the intensity
-figure;
+figure('Name', 'Time vs Intensity');
 plot(range_checkpoints, original_intensity, 'g-*', range_checkpoints, magnified_intensity, 'r-*');
 title('Time vs Intensity');
 xlabel('Seconds');
@@ -114,7 +114,7 @@ ylabel('Intensity');
 legend('Original','Magnified');
 
 % Draw the standard deviation
-figure;
+figure('Name', 'Time vs Error');
 plot(range_checkpoints, original_error, 'y-*', range_checkpoints, magnified_error, 'r-*');
 title('Time vs Error');
 xlabel('Seconds');
@@ -122,16 +122,16 @@ ylabel('Error');
 legend('Original','Magnified');
 
 % Draw the SNR
-figure;
+figure('Name', 'Time vs SNR');
 plot(range_checkpoints, original_snr, 'b-*', range_checkpoints, magnified_snr, 'r-*');
 title('Time vs SNR');
 xlabel('Seconds');
 ylabel('SNR');
 legend('Original','Magnified');
-figure;
 
 
 % Draw the difference and erode
+figure('Name', 'Difference between original and magnified ROI');
 for i = start_index: total_frames
     
  original_frame = read(original_video, i);
