@@ -4,12 +4,12 @@
 clear all; close all;
 
 % Read orignal video
-original_video = VideoReader('data/1-original.avi');
+original_video = VideoReader('data/rgb-original.avi');
 frame_rate_original = original_video.FrameRate;
 fprintf('Frame rate in original: %.2f\n', frame_rate_original);
 
 % Read magnified video
-magnified_video = VideoReader('data/1-magnified.avi');
+magnified_video = VideoReader('data/rgb-magnified.avi');
 frame_rate_magnified = magnified_video.FrameRate;
 fprintf('Frame rate in magnified: %.2f\n', frame_rate_magnified);
 
@@ -109,6 +109,7 @@ for i = start_index: total_frames
                 original_standard_deviation = 0;
                 magnified_mean = 0;
                 magnified_standard_deviation = 0;
+                
         end
  
 end 
