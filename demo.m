@@ -1,27 +1,19 @@
 % Authors: E. Ulises Moya-Sánchez, Bonell Manjarrez Marcela
-% Date: Jun 2015
+% Date: July 2015
 
 clear all; close all;
 
 % Read orignal video
 original_video = VideoReader('videos/1-original.avi');
+frame_rate_original = original_video.FrameRate;
+fprintf('Frame rate in original: %.2f\n', frame_rate_original);
 
 % Read magnified video
 magnified_video = VideoReader('videos/1-magnified.avi');
-
-% Original video information
-height_original = original_video.Height;
-width_orginal   = original_video.Width;
-
-frame_rate_original     = original_video.FrameRate;
-number_frames_original  = original_video.NumberOfFrames;
-
-%fprintf('Frame rate in original: %d\n', frame_rate_original);
-%fprintf('Number of frames in original: %d\n', number_frames_original);
+frame_rate_magnified = magnified_video.FrameRate;
+fprintf('Frame rate in magnified: %.2f\n', frame_rate_magnified);
 
 start_index = 1;
-end_index   = number_frames_original;
-
 width_roi   = 80;
 height_roi  = 80;
 x_roi       = 170;
@@ -29,12 +21,14 @@ y_roi       = 200;
 
 % Show the first frame and the ROI
 %first_frame = read(original_video, start_index);
+%imshow(first_frame);
 %original_roi = imcrop(first_frame,[x_roi y_roi width_roi height_roi]);
-%imshow(first_frame), figure('Name', 'ROI'), imshow(original_roi)
+%figure('Name', 'ROI'), imshow(original_roi);
 
-total_frames = 24 * 8;
-frames_frecuency = 12;
-seconds = total_frames / 24;
+frames_per_second = round(frame_rate_original);
+seconds = 20;
+total_frames = frames_per_second * seconds;
+frames_frecuency = frames_per_second / 2;
 checkpoint = 1;
 total_checkpoints = total_frames / frames_frecuency;
 range_checkpoints = 0.5:0.5:seconds;
@@ -53,7 +47,7 @@ magnified_snr       = zeros(1,total_checkpoints);
 
 
 % Calculate mean, stardard deviation and SNR in the videos every 0.5
-% seconds (every 12 frames)
+% seconds (every 3 frames)
 for i = start_index: total_frames
  
  original_frame = read(original_video, i);
@@ -73,7 +67,7 @@ for i = start_index: total_frames
  
  
     if mod(i, frames_frecuency) == 0
-        fprintf('\nSecond %.1f (Original vs Magnified):\n',i/24);
+        fprintf('\nSecond %.1f (Original vs Magnified):\n',i/frames_per_second);
         fprintf('[Mean]\n');
         disp(original_mean/frames_frecuency);
         disp(magnified_mean/frames_frecuency);
@@ -133,7 +127,7 @@ legend('Original','Magnified');
 % Draw the difference and erode
 figure('Name', 'Difference between original and magnified ROI');
 for i = start_index: total_frames
-    
+
  original_frame = read(original_video, i);
  original_roi   = rgb2gray(imcrop(original_frame,[x_roi y_roi width_roi height_roi]));
  original_double_roi = im2double(original_roi);
@@ -152,7 +146,7 @@ for i = start_index: total_frames
 
     subplot(2,2,3)
     difference_roi = original_roi - magnified_roi;
-    imshow(difference_roi);
+    imshow(difference_roi,[]);
     title('Difference');
     
     subplot(2,2,4);
