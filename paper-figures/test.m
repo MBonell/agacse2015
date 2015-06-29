@@ -24,12 +24,12 @@ figure('Name', 'ROI - Leap Motion'), imshow(leap_motion_roi);
 
 infrared_frame = read(infrared_video, 95);
 figure('Name', 'Infrared'), imshow(infrared_frame);
-infrared_roi = imcrop(infrared_frame,[420 200 width_roi height_roi]);
+infrared_roi = imcrop(infrared_frame,[290 240 width_roi height_roi]);
 figure('Name', 'ROI - Infrared'), imshow(infrared_roi);
 
 depth_frame = read(depth_video, 426);
 figure('Name', 'Depth'), imshow(depth_frame);
-depth_roi = imcrop(depth_frame,[280 170 width_roi height_roi]);
+depth_roi = imcrop(depth_frame,[310 175 width_roi height_roi]);
 figure('Name', 'ROI - Depth'), imshow(depth_roi);
 
 
