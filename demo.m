@@ -5,25 +5,39 @@ clear all; close all;
 
 % Read orignal video
 original_video = VideoReader('data/rgb-original.avi');
+%original_video = VideoReader('data/infrared-original.avi');
+%original_video = VideoReader('data/depth-original.avi');
 frame_rate_original = original_video.FrameRate;
 fprintf('Frame rate in original: %.2f\n', frame_rate_original);
 
 % Read magnified video
 magnified_video = VideoReader('data/rgb-magnified.avi');
+%magnified_video = VideoReader('data/infrared-magnified.avi');
+%magnified_video = VideoReader('data/depth-magnified.avi');
 frame_rate_magnified = magnified_video.FrameRate;
 fprintf('Frame rate in magnified: %.2f\n', frame_rate_magnified);
 
 start_index = 1;
 width_roi   = 80;
 height_roi  = 80;
+
+% X,Y for RGB ROI
 x_roi       = 170;
 y_roi       = 200;
 
+% X,Y for infrared ROI
+%x_roi       = 290;
+%y_roi       = 230;
+
+% X,Y for depth ROI
+%x_roi       = 305;
+%y_roi       = 180;
+
 % Show the first frame and the ROI
-%first_frame = read(original_video, start_index);
-%imshow(first_frame);
-%original_roi = imcrop(first_frame,[x_roi y_roi width_roi height_roi]);
-%figure('Name', 'ROI'), imshow(original_roi);
+first_frame = read(original_video, start_index);
+imshow(first_frame);
+original_roi = imcrop(first_frame,[x_roi y_roi width_roi height_roi]);
+figure('Name', 'ROI'), imshow(original_roi);
 
 frames_per_second = round(frame_rate_original);
 seconds = 20;
