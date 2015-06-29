@@ -4,9 +4,9 @@
 clear all; close all;
 
 % Read videos
-leap_motion_video = VideoReader('leap-motion.mp4');
-infrared_video = VideoReader('infrared.avi');
-depth_video = VideoReader('depth.avi');
+leap_motion_video = VideoReader('data/leap-motion.mp4');
+infrared_video = VideoReader('data/infrared-original.avi');
+depth_video = VideoReader('data/depth-original.avi');
 
 % Videos information
 fprintf('Frame rate (Leap Motion): %.2f\n', leap_motion_video.FrameRate);
